@@ -1,10 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -33,28 +30,8 @@ class CompleteDestructionTest {
             e.printStackTrace();
         }
 
-//        if (!file.exists())
-//            return;
-
-        //если это папка, то идем внутрь этой папки и вызываем рекурсивное удаление всего, что там есть
-        if (dir.isDirectory()) {
-            for (File f : dir.listFiles()) {
-                // рекурсивный вызов
-//                recursiveDelete(f);
-            }
-        }
-
-        file1.delete();
-        file2.delete();
-        if(dir.isDirectory())
-            dir.delete();
-        else {
-//            deleteFile();
-            file1.delete();
-            file2.delete();
-        }
-
-        dir.delete();
+        CompleteDestruction cm = new CompleteDestruction();
+        cm.recursiveDelete(dir);
 
         Assertions.assertEquals(false,dir.exists());
     }
@@ -63,7 +40,9 @@ class CompleteDestructionTest {
     void deleteFile() {
         File file = new File("Example.txt");
 
-        file.delete();
+        CompleteDestruction cm = new CompleteDestruction();
+        cm.deleteFile(file);
+
         Assertions.assertEquals(false,file.exists());
     }
 
@@ -77,20 +56,8 @@ class CompleteDestructionTest {
             // Создание файла
             file.createNewFile();
 
-            // Создание объекта FileWriter
-            FileWriter writer = new FileWriter(file);
-
-            // Запись содержимого в файл
-            writer.write("Это простой пример,\n в котором мы осуществляем\n с помощью языка Java\n запись в файл\n и чтение из файла\n");
-            writer.flush();
-            writer.close();
-
-            File fileOverwrite = new File("Example.txt");
-            FileWriter writerOverwrite  = new FileWriter(file,false);
-
-            // Перезаписываем файл
-            writerOverwrite.write("Новые символы");
-            writerOverwrite.close();
+            CompleteDestruction cm = new CompleteDestruction();
+            cm.overwriteFile(file,"Новые символы");
 
             // Создание объекта FileReader
             String returnStr = "";
@@ -106,7 +73,5 @@ class CompleteDestructionTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 }

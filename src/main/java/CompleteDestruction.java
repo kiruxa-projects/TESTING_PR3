@@ -56,7 +56,5 @@ public class CompleteDestruction {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
 }
